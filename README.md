@@ -1,0 +1,2 @@
+# WR
+Wasserstein regression
