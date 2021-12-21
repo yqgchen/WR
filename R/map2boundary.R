@@ -1,3 +1,10 @@
+#' Boundary projection for the prediction of log mapped distributions.
+#' @param Logfit A vector holding a log map to be projected.
+#' @param sup A vector holding the support grid of \code{Logfit}.
+#' @return The projection parameter.
+#' @references
+#' \cite{Chen, Y., Lin, Z., & Müller, H.-G. (2021). "Wasserstein regression." Journal of the American Statistical Association, in press.}
+#' @export
 map2boundary <- function(Logfit, sup) {
   if (!is.unsorted(Logfit + sup))
     return (1)

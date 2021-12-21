@@ -1,0 +1,29 @@
+Package: WR
+Type: Package
+Title: Wasserstein regression for distributional data
+URL: https://github.com/yqgchen/WR
+BugReports: https://github.com/yqgchen/WR/issues
+Version: 0.1.0
+Encoding: UTF-8
+Date: 2021-12-20
+Authors@R: 
+    c(person(given = "Yaqing",
+             family = "Chen",
+             role = c("aut", "cre"),
+      person(given = "Hans-Georg",
+             family = "M??ller",
+             role = c("cph", "ths", "aut")))
+Maintainer: Yaqing Chen <yaqchen@ucdavis.edu>
+Description: Provides implementation of Wasserstein regression for distributional data.  
+    References: Chen, Y., Lin, Z., & Müller, H.-G. (2019) <doi:10.1080/01621459.2021.1956937>.
+License: BSD_3_clause + file LICENSE
+LazyData: false
+Imports:
+    fdapace (>= 0.5.5),
+    stats,
+    pracma,
+    osqp
+Suggests: 
+    Rcpp (>= 0.11.5), 
+    testthat
+RoxygenNote: 7.1.0
