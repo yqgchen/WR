@@ -9,13 +9,13 @@ Date: 2021-12-20
 Authors@R: 
     c(person(given = "Yaqing",
              family = "Chen",
-             role = c("aut", "cre"),
+             role = c("aut", "cre")),
       person(given = "Hans-Georg",
-             family = "M??ller",
+             family = "M¨¹ller",
              role = c("cph", "ths", "aut")))
 Maintainer: Yaqing Chen <yaqchen@ucdavis.edu>
 Description: Provides implementation of Wasserstein regression for distributional data.  
-    References: Chen, Y., Lin, Z., & MÃ¼ller, H.-G. (2019) <doi:10.1080/01621459.2021.1956937>.
+    References: Chen, Y., Lin, Z., & M¨¹ller, H.-G. (2021+) <doi:10.1080/01621459.2021.1956937>.
 License: BSD_3_clause + file LICENSE
 LazyData: false
 Imports:
