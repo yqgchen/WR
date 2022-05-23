@@ -1,4 +1,4 @@
-#' Boundary projection for the prediction of log mapped distributions.
+#' Boundary projection for the prediction of log mapped distributions
 #' @param Logfit A vector holding a log map to be projected.
 #' @param sup A vector holding the support grid of \code{Logfit}.
 #' @return The projection parameter.

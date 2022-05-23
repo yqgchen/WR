@@ -2,7 +2,7 @@
 % Please edit documentation in R/map2qt.R
 \name{map2qt}
 \alias{map2qt}
-\title{Projecting functions to the space of non-decreasing functions.}
+\title{Project functions to the space of non-decreasing functions}
 \usage{
 map2qt(y, lower = NULL, upper = NULL)
 }
@@ -16,7 +16,7 @@ Defaults are both \code{NULL}, corresponding to an unbounded image space, i.e., 
 The projected function.
 }
 \description{
-Projecting functions to the space of non-decreasing functions.
+Project functions to the space of non-decreasing functions
 }
 \references{
 \cite{Petersen, A., & Müller, H.-G. (2019). "Fréchet regression for random objects with Euclidean predictors." The Annals of Statistics, 47(2), 691--719.}

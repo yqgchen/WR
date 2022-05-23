@@ -5,24 +5,27 @@ URL: https://github.com/yqgchen/WR
 BugReports: https://github.com/yqgchen/WR/issues
 Version: 0.1.0
 Encoding: UTF-8
-Date: 2021-12-20
+Date: 2022-05-22
 Authors@R: 
     c(person(given = "Yaqing",
              family = "Chen",
+             email = "yaqchen@ucdavis.edu",
              role = c("aut", "cre")),
       person(given = "Hans-Georg",
-             family = "M¨¹ller",
+             family = "MÃ¼ller",
              role = c("cph", "ths", "aut")))
 Maintainer: Yaqing Chen <yaqchen@ucdavis.edu>
 Description: Provides implementation of Wasserstein regression for distributional data.  
-    References: Chen, Y., Lin, Z., & M¨¹ller, H.-G. (2021+) <doi:10.1080/01621459.2021.1956937>.
+    References: Chen, Y., Lin, Z., & MÃ¼ller, H.-G. (2021+) <doi:10.1080/01621459.2021.1956937>.
 License: BSD_3_clause + file LICENSE
 LazyData: false
 Imports:
-    fdapace (>= 0.5.5),
+    fdapace (>= 0.5.6),
     stats,
     pracma,
-    osqp
+    osqp,
+    MASS,
+    methods
 Suggests: 
     Rcpp (>= 0.11.5), 
     testthat

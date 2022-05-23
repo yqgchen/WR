@@ -2,7 +2,7 @@
 % Please edit documentation in R/map2boundary.R
 \name{map2boundary}
 \alias{map2boundary}
-\title{Boundary projection for the prediction of log mapped distributions.}
+\title{Boundary projection for the prediction of log mapped distributions}
 \usage{
 map2boundary(Logfit, sup)
 }
@@ -15,7 +15,7 @@ map2boundary(Logfit, sup)
 The projection parameter.
 }
 \description{
-Boundary projection for the prediction of log mapped distributions.
+Boundary projection for the prediction of log mapped distributions
 }
 \references{
 \cite{Chen, Y., Lin, Z., & Müller, H.-G. (2021). "Wasserstein regression." Journal of the American Statistical Association, in press.}
