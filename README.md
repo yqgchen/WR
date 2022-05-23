@@ -7,7 +7,7 @@ Chen, Y., Lin, Z., & Müller, H.-G. (2021+) <https://doi.org/10.1080/01621459.20
 ## Installation
 You can install the development version of the package in R using:
 ```
-devtools::install_github("yqgchen/WR")
+devtools::install_github("yqgchen/WR", ref = "main")
 ```
 
 ## Load Package and Data
