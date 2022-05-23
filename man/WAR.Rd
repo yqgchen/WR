@@ -2,13 +2,13 @@
 % Please edit documentation in R/WAR.R
 \name{WAR}
 \alias{WAR}
-\title{Wasserstein autoregressive models.}
+\title{Fit Wasserstein autoregressive models to distributional time series}
 \usage{
 WAR(
-  Q,
+  Y,
   qSup,
   optns = list(),
-  n.ahead = 1,
+  FPCAoptns = list(),
   aic = FALSE,
   order.max = 1,
   method = "yule-walker",
@@ -16,43 +16,100 @@ WAR(
 )
 }
 \arguments{
-\item{Q}{A \eqn{q}-by-\eqn{n} matrix holding the quantile functions of 
+\item{Y}{A \eqn{q}-by-\eqn{n} matrix holding the quantile functions of 
 \eqn{n} distributions evaluated on a common grid on \eqn{[0,1]} consisting of \eqn{q} points.}
 
 \item{qSup}{A vector of length \eqn{q} holding the support grid of quantile functions.}
 
-\item{optns}{A list of options control parameters specified by list(name=value). See 'Details'.}
+\item{optns}{A list of control parameters specified by \code{list(name=value)}. See 'Details'.}
 
-\item{n.ahead}{Number of steps ahead at which to predict. Default: 1.}
+\item{FPCAoptns}{A list of optional control parameters for functional principal 
+component analysis (FPCA) of log mapped distributional predictors and responses, respectively. 
+See 'Details' of \code{\link[fdapace]{FPCA}}. For example, one can specify 
+the methods of choosing numbers of functional principal components (FPCs) through \code{methodSelectK}; 
+set up Fraction-of-Variance-Explained (FVE) thresholds through \code{FVEthreshold} 
+when using FVE to choose numbers of FPCs. 
+Default of \code{methodSelectK}: \code{'FVE'}; 
+Default of \code{FVEthreshold}: 0.95 (different from \code{\link[fdapace]{FPCA}}).
+Default of \code{useBinnedData}: \code{'OFF'} (different from \code{\link[fdapace]{FPCA}}).
+In addition, if \code{optns$CVfold} is specified (i.e., not \code{NULL}), 
+\code{methodSelectK = 'FVE'} and \code{FVEthreshold = 0.9999}.}
 
 \item{aic, order.max, method, ...}{arguments for \code{\link[stats]{ar}}. 
-Default: \code{aic = FALSE, order.max = 1, method = "yule-walker"}. 
+Default: \code{aic = FALSE}, \code{order.max = 1}, \code{method = "yule-walker"}. 
 Note that \code{demean} should not be input and is set to be \code{FALSE}.}
 }
 \value{
 A list of class \code{'WAR'} with the following elements:
-\item{QPred}{A \eqn{q}-by-\code{n.ahead} matrix holding the quantile functions of the \code{n.ahead} predicted distributions.}
+\item{Yfit}{A \eqn{q}-by-\eqn{n} matrix holding the fitted quantile functions of the \eqn{n} distributions.}
 \item{qSup}{The support of quantile functions, same as the input.}
+\item{beta}{A matrix holding the fitted coefficient function, where the (\code{j},\code{k})-th entry 
+holds the value evaluated at (\code{workGrid[j]},\code{workGrid[k]}).}
+\item{workGrid}{A vector holding a working grid for \code{beta}.}
+\item{arFPCs}{An ar object returned by \code{\link[stats]{ar}}, holding the fitted autoregressive model to the FPCs.}
 \item{order}{The order of the fitted Wasserstein autoregressive model.}
-\item{optns}{The \code{optns} used.}
+\item{fpcaLogY}{An FPCA object holding the FPCA output for log mapped distributions.}
+\item{Y}{The input \code{Y}.}
+\item{outOfLogSpace}{A logical vector holding whether initial fitted log mapped distributions 
+lie out of the log image space (\code{TRUE}) or not (\code{FALSE}).}
+\item{optns}{A list of options actually used.}
+\item{FPCAoptns}{A list of FPCA options actually used.}
 }
 \description{
-Wasserstein autoregressive models.
+Fit Wasserstein autoregressive models to distributional time series
 }
 \details{
 Available control options are
 \describe{
-\item{methodNFPC}{The method for choosing the number of FPCs; \code{'FVE'} (default), \code{'CV'}.}
 \item{methodProj}{The projection method if the predictions of log mapped distributional responses lie out of the log image space: 
-\code{'log'} (the method as per Chen, Lin, and Müller, 2021); 
-\code{'qt'} (default, the method as per Petersen & Müller, 2019).}
-\item{FVEthreshold}{Fraction-of-Variance-Explained threshold used for choosing the number of FPCs, 
-relevant only if \code{methodNFPC} is \code{'FVE'}; numeric \eqn{(0,1]}, default: 0.95.}
-\item{CVfold}{The number of folds for cross validation, relevant only if \code{methodNFPC} is \code{'CV'}; 
-Any positive integer up to \eqn{n}; Default: \eqn{n} (leave-one-out) if \eqn{n\le 30} and \eqn{10} (10-fold) if \eqn{n > 30}.}
-\item{lower}{Lower bound of the support of distributions; default: \code{NULL}, i.e., no finite lower bound.}
-\item{upper}{Upper bound of the support of distributions; default: \code{NULL}, i.e., no finite upper bound.}
+\code{'log'} (default, the method as per Chen, Lin, and Müller, 2021); 
+\code{'qt'} (the method as per Petersen & Müller, 2019).}
+\item{CVfold}{Either the number of folds if using cross validation to choose the number of FPCs, 
+which can be any positive integer up to \eqn{n}, 
+with suggested values: \eqn{n} (leave-one-out) if \eqn{n\le 30} and \eqn{10} (10-fold) if \eqn{n > 30}; 
+Or \code{NULL} if using other methods to choose the number of FPCs.}
+\item{lower}{Lower bound of the support of distributions, only relevant if \code{methodProj} is \code{'qt'}. 
+Default: \code{NULL}, i.e., no finite lower bound.}
+\item{upper}{Upper bound of the support of distributions, only relevant if \code{methodProj} is \code{'qt'}. 
+Default: \code{NULL}, i.e., no finite upper bound.}
 }
+}
+\examples{
+\donttest{
+# X_{t} = N( mu_{t}, sigma_{t}^2 )
+# mu_{t+1} = Emu + b11 * ( mu_{t} - Emu ) + b12 * ( sigma_{t} - Esigma ) + err_{mu,t+1}
+# sigma_{t+1} = Esigma + b21 * ( mu_{t} - Emu ) + b22 * ( sigma_{t} - Esigma ) + err_{sigma,t+1}
+bMat <- matrix( c( 1, 1, 1, -1 ) * 0.4, ncol = 2, byrow = TRUE )
+# mu_{1} ~ Beta(2,2), sigma_{1} ~ Uniform(0.5,1.5) + Esigma - 1
+# err ~ Uniform(-1,1) * M_err; M_err = 0.05
+# | mu_{t+1} - Emu | < | mu_{t} - Emu |
+# | sigma_{t+1} - Esigma | < | sigma_{t} - Esigma |
+set.seed(1)
+Emu <- 2
+Esigma <- 2
+M_err <- 0.05
+mu_c <- rbeta( 1, 2, 2 ) - Emu
+sigma_c <- runif( 1, 0.5, 1.5 ) - 1
+dat_c <- matrix( c(mu_c,sigma_c), ncol = 1 )
+n <- 100
+for ( i in 2:n ) {
+  dat_c <- cbind( dat_c, bMat \%*\% dat_c[,i-1] + runif(2,-1,1) * M_err )
+}
+mu_c <- dat_c[1,]
+mu <- mu_c + Emu
+sigma_c <- dat_c[2,]
+sigma <- sigma_c + Esigma
+
+nqSup <- 1000
+qSup <- seq( 0, 1, length.out = nqSup+1 )
+qSup <- ( qSup[-1] + qSup[-(nqSup+1)] ) / 2
+
+Y <- sapply( seq_len(n), function (i) {
+  qnorm( qSup, mean = mu[i], sd = sigma[i] )
+})
+res <- WAR( Y = Y, qSup = qSup )
+}
+
 }
 \references{
 \cite{Chen, Y., Lin, Z., & Müller, H.-G. (2021). "Wasserstein regression." Journal of the American Statistical Association, in press.}
