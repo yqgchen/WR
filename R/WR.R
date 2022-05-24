@@ -266,7 +266,7 @@ WR <- function ( X, Y, qSup, optns = list(), FPCAoptnsX = list(), FPCAoptnsY = l
     outOfLogSpace <- Yfit$outOfLogSpace
     Yfit <- Yfit$Yhat # quantile functions of fitted responses; length(fpcaLogY$workGrid) x n
     ## obtain fitted quantile functions evaluated on qSup for distributional responses ----
-    if ( !all.equal(fpcaLogY$workGrid, qSup) ) {
+    if ( !isTRUE( all.equal(fpcaLogY$workGrid, qSup) ) ) {
       Yfit <- apply( Yfit, 2, function (y) {
         approx( x = fpcaLogY$workGrid, y = y, xout = qSup )$y
       })

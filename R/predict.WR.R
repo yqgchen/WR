@@ -110,7 +110,7 @@ predict.WR <- function ( object, Xpred, ... ) {
     Ypred <- Ypred$Yhat # length(fpcaLogY$workGrid) x n
     
     ## obtain fitted quantile functions evaluated on qSup for distributional responses ----
-    if ( !all.equal(fpcaLogY$workGrid, qSup) ) {
+    if ( !isTRUE( all.equal(fpcaLogY$workGrid, qSup) ) ) {
       Ypred <- apply( Ypred, 2, function (y) {
         approx( x = fpcaLogY$workGrid, y = y, xout = qSup )$y
       })

@@ -142,7 +142,7 @@ WAR <- function (Y, qSup, optns = list(), FPCAoptns = list(), aic = FALSE, order
       })
       LogYpred_cv <- Reduce(cbind,LogYpred_cv)
       LogYpred_cv <- LogYpred_cv[, order(unlist(cv_partition))]
-      if ( !all.equal( qSup, fpcaLogY$workGrid) ) {
+      if ( !isTRUE( all.equal( qSup, fpcaLogY$workGrid) ) ) {
         LogYpred_cv <- sapply(1:ncol(LogYpred_cv), function(i) {
           approx(x = fpcaLogY$workGrid, y = LogYpred_cv[,i], xout = qSup, rule = 2)$y
         })
@@ -180,7 +180,7 @@ WAR <- function (Y, qSup, optns = list(), FPCAoptns = list(), aic = FALSE, order
   outOfLogSpace <- Yfit$outOfLogSpace
   Yfit <- Yfit$Yhat
   # obtain fitted quantile functions on qSup ----
-  if ( !all.equal(fpcaLogY$workGrid, qSup) ) {
+  if ( !isTRUE( all.equal(fpcaLogY$workGrid, qSup) ) ) {
     Yfit <- apply( Yfit, 2, function (y) {
       approx( x = fpcaLogY$workGrid, y = y, xout = qSup )$y
     })

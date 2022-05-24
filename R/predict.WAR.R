@@ -55,7 +55,7 @@ predict.WAR <- function ( object, n.ahead = 1, Ynew = NULL, ... ) {
   outOfLogSpace <- Ypred$outOfLogSpace
   Ypred <- Ypred$Yhat
   # obtain predicted quantile functions on qSup ----
-  if ( !all.equal(fpcaLogY$workGrid, qSup) ) {
+  if ( !isTRUE( all.equal(fpcaLogY$workGrid, qSup) ) ) {
     Ypred <- apply( Ypred, 2, function (y) {
       approx( x = fpcaLogY$workGrid, y = y, xout = qSup )$y
     })
