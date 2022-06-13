@@ -52,7 +52,7 @@ predict.WR <- function ( object, Xpred, ... ) {
     
     inputXpred[ indDistnlPdt ] <- 
       lapply( seq_along( indDistnlPdt ), function (j) {
-        if ( all.equal( fpcaLogX[[j]]$workGrid, qSup ) ) {
+        if ( isTRUE( all.equal( fpcaLogX[[j]]$workGrid, qSup ) ) ) {
           t( LogXpred[[j]] )
         } else {
           t( apply( LogXpred[[j]], 2, function (y) {

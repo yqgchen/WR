@@ -45,7 +45,7 @@ predict.WAR <- function ( object, n.ahead = 1, Ynew = NULL, ... ) {
   fpcsYpred <- predict( arFPCs, newdata = fpcsYnew, n.ahead = n.ahead, se.fit = FALSE )
   # obtain predicted log maps and their support grid ----
   LogYpred <- fpcaLogY$phi[,1:nFPCs, drop = FALSE] %*% t(fpcsYpred) + fpcaLogY$mu
-  if ( all.equal( qSup, fpcaLogY$workGrid ) ) {
+  if ( isTRUE( all.equal( qSup, fpcaLogY$workGrid ) ) ) {
     LogSup <- QYmean
   } else {
     LogSup <- approx( x = qSup, y = QYmean, xout = fpcaLogY$workGrid )$y
