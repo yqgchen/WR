@@ -4,7 +4,7 @@
 \alias{GetProj}
 \title{Project to the log image space}
 \usage{
-GetProj(LogYhat, LogSup, optns)
+GetProj(LogYhat, LogSup, optns = list())
 }
 \arguments{
 \item{LogYhat}{A \eqn{p}-by-\eqn{n} matrix holding \eqn{n} fitted/predicted log mapped distributions 
