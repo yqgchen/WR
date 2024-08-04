@@ -10,7 +10,10 @@
 #' lie out of the log image space (\code{TRUE}) or not (\code{FALSE}).}
 #' @export
 #' 
-GetProj <- function ( LogYhat, LogSup, optns ) {
+GetProj <- function ( LogYhat, LogSup, optns = list() ) {
+  if ( is.null( optns$methodProj ) ) {
+    optns$methodProj <- 'log'
+  }
   Yhat <- LogYhat + LogSup
   outOfLogSpace <- apply( Yhat, 2, is.unsorted )
   if ( any( outOfLogSpace ) ) {
