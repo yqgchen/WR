@@ -255,14 +255,14 @@ WR <- function ( X, Y, qSup, optns = list(), FPCAoptnsX = list(), FPCAoptnsY = l
     Yfit <- Yfit + Ymean
   } else {
     ## obtain support grid of log distributional responses ----
-    if ( all.equal(qSup,fpcaLogY$workGrid) ) {
+    if ( isTRUE( all.equal(qSup,fpcaLogY$workGrid) ) ) {
       LogYSup <- QYmean
     } else {
       LogYSup <- approx( x = qSup, y = QYmean, xout = fpcaLogY$workGrid )$y
     }
     ## map fitted log distributional responses back to distributions (quantile functions) ----
     LogYfit <- Yfit
-    Yfit <- GetProj( LogYhat = LogYfit, LogSup = LogYSup )
+    Yfit <- GetProj( LogYhat = LogYfit, LogSup = LogYSup, optns = optns )
     outOfLogSpace <- Yfit$outOfLogSpace
     Yfit <- Yfit$Yhat # quantile functions of fitted responses; length(fpcaLogY$workGrid) x n
     ## obtain fitted quantile functions evaluated on qSup for distributional responses ----
@@ -276,7 +276,7 @@ WR <- function ( X, Y, qSup, optns = list(), FPCAoptnsX = list(), FPCAoptnsY = l
   # working grid of beta ----
   if ( anyDistnlPdt ) {
     workGridX <- lapply( seq_along(fpcaLogX), function (j) {
-      if ( all.equal( qSup, fpcaLogX[[j]]$workGrid ) ) {
+      if ( isTRUE( all.equal( qSup, fpcaLogX[[j]]$workGrid ) ) ) {
         QXmean[[j]]
       } else {
         approx( x = qSup, y = QXmean[[j]], xout = fpcaLogX[[j]]$workGrid )$y
